@@ -14,7 +14,15 @@ A compiler for a large subset of the C programming language that targets the x86
 
 ## References:
 ### Books
-* __Compilers: Principles, Techiniques and Tools:__ by . Also known as the "Dragon Book". It is considered the "Compilers bible". A good book for reference. It is heavily theoretical and spends most of its content on the front-end stage of a compiler.
+* __Compilers: Principles, Techiniques and Tools:__ by Alfred V. Aho, Monica S. Lam, Ravi Sethi and Jeffrey D. Ullman. Also known as the "Dragon Book". It is considered the "Compilers bible". A good book for reference. It is heavily theoretical and spends most of its content on the front-end stage of a compiler.
+* __Intel 64 Software Developer’s Manual:__
+
+### Websites
+* __Compiler Explorer:__  A website where you can see how a variety of widely used compilers translate your code to assembly.
 
 ### Papers
 * __An Incremental Approach to Compiler Construction:__ by Abdulaziz Ghuloum. It explains how to write a compiler for the Scheme language targeting the x86 architecture. As the name suggests, it explains the process in an incremental way. The author starts with the simplest possible program and then adds one new language construct at a time.
+
+### Specifications
+* __C Standard Specification:__
+* __System V Application Binary Interface (ABI) Specification:__
