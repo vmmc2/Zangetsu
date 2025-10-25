@@ -1,7 +1,7 @@
 # Zangetsu
 
 ## What is it?
-A C compiler written in C++ 20 that targets the x86-64 architecture for Linux systems.
+A compiler for a large subset of the C programming language that targets the x86-64 architecture for Linux systems, written in C++ 20.
 
 ## Why does this exist?
 * One of my dreams is to work as a Compiler Engineer.
