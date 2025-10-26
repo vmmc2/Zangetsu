@@ -1,7 +1,7 @@
 # Zangetsu
 
 ## What is it?
-A compiler for a large subset of the C programming language that targets the x86-64 architecture for Linux systems, written in C++ 20.
+A compiler for a large subset of the C programming language (specifically C17) that targets the x86-64 architecture for Linux systems, written in C++ 20.
 
 ## Why does this exist?
 * One of my dreams is to work as a Compiler Engineer.
@@ -15,7 +15,7 @@ A compiler for a large subset of the C programming language that targets the x86
 ## References:
 ### Books
 * __Compilers: Principles, Techiniques and Tools:__ by Alfred V. Aho, Monica S. Lam, Ravi Sethi and Jeffrey D. Ullman. Also known as the "Dragon Book". It is considered the "Compilers bible". A good book for reference. It is heavily theoretical and spends most of its content on the front-end stage of a compiler.
-* __Intel 64 Software Developer’s Manual:__
+* __Intel 64 Software Developer’s Manual:__ Intel’s official documentation for the x64 instruction set (which can be found [here](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html)). There are 2 volumes available. However, we care about Volume 2, the instruction set reference. There’s also an unofficial version [here](https://www.felixcloutier.com/x86/).
 
 ### Websites
 * __Compiler Explorer:__  A website where you can see how a variety of widely used compilers translate your code to assembly.
@@ -24,5 +24,5 @@ A compiler for a large subset of the C programming language that targets the x86
 * __An Incremental Approach to Compiler Construction:__ by Abdulaziz Ghuloum. It explains how to write a compiler for the Scheme language targeting the x86 architecture. As the name suggests, it explains the process in an incremental way. The author starts with the simplest possible program and then adds one new language construct at a time.
 
 ### Specifications
-* __C Standard Specification:__
-* __System V Application Binary Interface (ABI) Specification:__
+* __C Standard Specification:__ Responsible for specifying how C programs are supposed to behave. For Zangetsu, we'll C17 (ISO/IEC 9899:2018), which was the latest version of the standard at the time the major reference book for this project was being written. There is a free draft version that can be accessed [here](https://www.open-std.org/JTC1/SC22/WG14/www/docs/n2310.pdf), which is an early draft of C23.
+* __System V Application Binary Interface (ABI) Specification:__  This defines a set of conventions that executables follow on Unix-like operating systems, which is the case for Linux. This will be important starting in Chapter 9, when we implement function calls. The latest version of this spec can be found [here](https://gitlab.com/x86-psABIs/x86-64-ABI).
