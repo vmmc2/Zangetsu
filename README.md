@@ -12,6 +12,9 @@ A compiler for a large subset of the C programming language (specifically C17) t
 * __According to the author of the book I used as the main reference to write Zangetsu, the C programming language is a simple language, and I agree with her, but is not a toy language. Thus, it hits a sweet spot.__
 * __Moreover, the C language is a perfect example of a language that has been shaped by the systems it runs on and the people that use it. Keep in mind that some aspects of C vary between the hardware you are running it and also the operating systems. Last, but not least, some aspects of the language are left unspecified to give more freedom to the one that is implementing the compiler.__
 
+## Nice To Have Features
+- [ ] Binary, Octal and Hexadecimal Integer Constants.
+
 ## References:
 ### Books
 * __Compilers: Principles, Techiniques and Tools:__ by Alfred V. Aho, Monica S. Lam, Ravi Sethi and Jeffrey D. Ullman. Also known as the "Dragon Book". It is considered the "Compilers bible". A good book for reference. It is heavily theoretical and spends most of its content on the front-end stage of a compiler.
