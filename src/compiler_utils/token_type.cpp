@@ -1,5 +1,7 @@
 #include "token_type.hpp"
 
+#include <cassert>
+#include <stdexcept>
 #include <string>
 
 std::string TokenTypeToString(TokenType token_type) {
@@ -27,6 +29,10 @@ std::string TokenTypeToString(TokenType token_type) {
   case TokenType::kFileEnd:
     return "TokenType::kFileEnd";
   }
+
+  assert(("TokenTypeToString(TokenType token_type): Unhandled enum value!",
+          false));
+  throw std::logic_error{"Unhandled enum value!"};
 }
 
 std::ostream &operator<<(std::ostream &os, TokenType token_type) {
