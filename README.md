@@ -14,6 +14,8 @@ A compiler for a large subset of the C programming language (specifically C17) t
 
 ## Nice To Have Features
 - [ ] Binary, Octal and Hexadecimal Integer Constants.
+- [ ] Usage of ```typedef```.
+- [ ] Pointer to functions.
 
 ## References:
 ### Books
