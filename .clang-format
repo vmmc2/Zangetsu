@@ -1,0 +1,28 @@
+---
+BasedOnStyle: Google
+
+AccessModifierOffset: -1
+AlignArrayOfStructures: Right
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: false
+AllowShortIncludesOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakTemplateDeclarations: Yes
+BinPackArguments: false
+BinPackParameters: false
+ColumnLimit: 80
+FixNamespaceComments: false
+IncludeBlocks: Preserve
+IndentCaseLabels: true
+IndentWidth: 2
+InsertBraces: true
+InsertNewlineAtEOF: true
+PackConstructorInitializers: Never
+PointerAlignment: Left
+QualifierAlignment: Left
+ReferenceAlignment: Left
+RemoveEmptyLinesInUnwrappedLines: true
+SeparateDefinitionBlocks: Always
+Standard: Latest
+TabWidth: 2
+WrapNamespaceBodyWithEmptyLines: Always
