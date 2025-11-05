@@ -40,5 +40,8 @@
 # Debug information files
 *.dwo
 
+# Unwanted Directories
+build/
+
 # CMake related files
 CMakeUserPresets.json
