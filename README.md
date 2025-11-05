@@ -17,6 +17,10 @@ A compiler for a large subset of the C programming language (specifically C17) t
 - [ ] Usage of ```typedef```.
 - [ ] Pointer to functions.
 
+## Meaning of Certain Files
+* __```CMakePresets.json```:__ This file defines which build configurations are officially supported by your project (in this case, Zangetsu). For example: "Debug Build with GCC on Linux", "Release Build with Clang", etc.
+* __```CMakeUserPresets.json```:__ This is a personal file. You should put your own version of it within the root directory of this project/repository. It is basically responsible for storing personal local preferences. For example, it is within this file that you put the path to ````vcpkg.cmake``` (where you tell CMake where to find your dependences). __It is also worth mentioning that the ```CMakeUserPresets.json``` file inherits from the ```CMakePresets.json``` file.__ 
+
 ## References:
 ### Books
 * __Compilers: Principles, Techiniques and Tools:__ by Alfred V. Aho, Monica S. Lam, Ravi Sethi and Jeffrey D. Ullman. Also known as the "Dragon Book". It is considered the "Compilers bible". A good book for reference. It is heavily theoretical and spends most of its content on the front-end stage of a compiler.
