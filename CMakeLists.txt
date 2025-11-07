@@ -10,10 +10,6 @@ cmake_minimum_required(VERSION 3.31)
 project(Zangetsu VERSION 1.0.0 LANGUAGES CXX)
 
 
-# Comand necessary to generate the 'compile_commands.json' file.
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-
 # Sets up compiler flags that will be used during the compilation phase of the project.
 # Compilation flags are like global rules for your project.
 # You want to set them as early as possible, so that all your subdirectories (add_subdirectory)
