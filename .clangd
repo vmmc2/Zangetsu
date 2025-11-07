@@ -1,0 +1,30 @@
+# Em Zangetsu/.clangd
+
+CompileFlags:                 # Flags de compilação globais
+  Add:
+    # 1. A SOLUÇÃO PARA O SEU PROBLEMA ATUAL:
+    # Força o clangd a rodar em modo C++20.
+    # Isso vai consertar a macro __cplusplus.
+    - -std=c++20
+
+    # 2. O SEU NOVO EMPREGO (O PESADELO):
+    # Dizer ao clangd onde estão seus includes.
+    # O ${workspaceFolder} é uma macro do VSCode para a pasta 'Zangetsu'.
+
+    # --- Includes do seu Projeto (um para CADA pasta) ---
+    - -I${workspaceFolder}/src/ast_nodes
+    - -I${workspaceFolder}/src/codegen
+    - -I${workspaceFolder}/src/compiler_utils
+    - -I${workspaceFolder}/src/file_scanner
+    - -I${workspaceFolder}/src/lexer
+    - -I${workspaceFolder}/src/parser
+    - -I${workspaceFolder}/src/static_analyzer
+    # Adicione a linha abaixo se você tiver includes na raiz de 'app/'
+    # - -I${workspaceFolder}/app
+    # Adicione a linha abaixo se você tiver includes na raiz de 'tests/'
+    # - -I${workspaceFolder}/tests
+
+    # --- Includes do Vcpkg ---
+    # Você tem que colocar o caminho absoluto.
+    # (Estou assumindo seu triplet, pode ser 'x64-linux-dynamic', etc.)
+    - -I/home/vmmc2/vcpkg/installed/x64-linux/include
