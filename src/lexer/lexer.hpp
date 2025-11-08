@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <string>
 #include <vector>
 
@@ -14,8 +15,10 @@ private:
   void AddToken(TokenType token_type);
   void AddToken(TokenType token_type, std::any value);
   char Advance();
+  void Identifier();
+  void IntegerConstant();
   bool IsAlpha(char c) const;
-  bool IsAlphaNumeric (char c) const;
+  bool IsAlphaNumeric(char c) const;
   bool IsAtEnd() const;
   bool IsDigit(char c) const;
   void LexToken();
@@ -28,4 +31,10 @@ private:
   int column_{1};
   std::string source_code_;
   std::vector<Token> tokens_;
+  // TODO: Give a better name to the attribute below.
+  std::map<std::string, TokenType> token_lexeme_to_token_type_map_ = {
+      {"int", TokenType::kInt},
+      {"return", TokenType::kReturn},
+      {"void", TokenType::kVoid},
+  };
 };

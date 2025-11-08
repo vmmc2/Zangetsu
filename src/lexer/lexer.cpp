@@ -18,18 +18,50 @@ std::vector<Token> Lexer::Lex() {
   return tokens_;
 }
 
-void Lexer::AddToken(TokenType token_type) {
-  // TODO: Implement this.
-}
+void Lexer::AddToken(TokenType token_type) { AddToken(token_type, {}); }
 
 void Lexer::AddToken(TokenType token_type, std::any value) {
-  // TODO: Implement this.
+  std::string token_lexeme = source_code_.substr(start_, current_ - start_);
+  tokens_.emplace_back(Token(line_, column_, token_type, token_lexeme, value));
 }
 
 char Lexer::Advance() {
   current_++;
 
   return source_code_.at(current_ - 1);
+}
+
+void Lexer::Identifier() {
+  while (IsAlphaNumeric(Peek(0))) {
+    Advance();
+  }
+
+  std::string token_lexeme = source_code_.substr(start_, current_ - start_);
+  std::any token_value = token_lexeme;
+  TokenType token_type;
+  if (token_lexeme_to_token_type_map_.contains(token_lexeme)) {
+    token_type = token_lexeme_to_token_type_map_.at(token_lexeme);
+  } else {
+    token_type = TokenType::kIdentifier;
+  }
+
+  AddToken(token_type, token_value);
+}
+
+void Lexer::IntegerConstant() {
+  while (IsDigit(Peek(0))) {
+    Advance();
+  }
+
+  if (IsAlpha(Peek(0))) {
+    // TODO: Throw error.
+  }
+
+  std::string token_lexeme = source_code_.substr(start_, current_ - start_);
+  std::any token_value = std::stoi(token_lexeme);
+  TokenType token_type = TokenType::kIntegerConst;
+
+  AddToken(token_type, token_value);
 }
 
 bool Lexer::IsAlpha(char c) const {
@@ -43,7 +75,41 @@ bool Lexer::IsAtEnd() const { return current_ >= source_code_.length(); }
 bool Lexer::IsDigit(char c) const { return (c >= '0' && c <= '9'); }
 
 void Lexer::LexToken() {
-  // TODO: Implement this.
+  // TODO: Think about how to deal with column displacement.
+  char curr_char = Advance();
+
+  switch (curr_char) {
+  case ('{'):
+    AddToken(TokenType::kLeftBrace);
+    break;
+  case ('}'):
+    AddToken(TokenType::kRightBrace);
+    break;
+  case ('('):
+    AddToken(TokenType::kLeftParen);
+    break;
+  case (')'):
+    AddToken(TokenType::kRightParen);
+    break;
+  case (';'):
+    AddToken(TokenType::kSemicolon);
+    break;
+  case (' '):
+  case ('\r'):
+  case ('\t'):
+    break; // Since the C programming language does not care about whitespace
+           // characters, the Lexer ignores them during the lexing process.
+  case ('\n'):
+    line_++;
+    break;
+  default:
+    if (IsAlpha(curr_char)) {
+      Identifier();
+    } else if (IsDigit(curr_char)) {
+      IntegerConstant();
+    }
+    break;
+  }
 }
 
 bool Lexer::Match(char expected) {
