@@ -10,7 +10,7 @@
 |-------------------|--------------------|
 | Identifier        | [a-zA-Z_]\w*\b     |
 | Constant          | [0-9]+\b           |
-| ```int``` keyword     | int\b              |
+| "int" keyword     | int\b              |
 | "void" keyword    | void\b             |
 | "return" keyword  | return\b           |
 | Left Parenthesis  | \(                 |
