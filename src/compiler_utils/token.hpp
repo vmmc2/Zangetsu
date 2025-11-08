@@ -10,6 +10,12 @@ public:
   Token(int line, int column, TokenType token_type, std::string lexeme,
         std::any value);
 
+  int line() const;
+  int column() const;
+  TokenType token_type() const;
+  std::string lexeme() const;
+  std::any value() const;
+
 private:
   int line_;
   int column_;
