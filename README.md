@@ -12,14 +12,15 @@ A compiler for a large subset of the C programming language (specifically C17) t
 * __According to the author of the book I used as the main reference to write Zangetsu, the C programming language is a simple language, and I agree with her, but is not a toy language. Thus, it hits a sweet spot.__
 * __Moreover, the C language is a perfect example of a language that has been shaped by the systems it runs on and the people that use it. Keep in mind that some aspects of C vary between the hardware you are running it and also the operating systems. Last, but not least, some aspects of the language are left unspecified to give more freedom to the one that is implementing the compiler.__
 
-## Nice To Have Features
-- [ ] Binary, Octal and Hexadecimal Integer Constants.
-- [ ] Usage of ```typedef```.
-- [ ] Pointer to functions.
+## Nice To Have (Optional) Features
+* Such features are considered to be hard by the author. Thus, one should carefully consider if this is worth all the trouble. Below, I have listed some of such features:
+  - [ ] Binary, octal and hexadecimal integer constants.
+  - [ ] Usage of ```typedef```.
+  - [ ] Pointer to functions.
 
 ## Meaning of Certain Files
 * __```CMakePresets.json```:__ This file defines which build configurations are officially supported by your project (in this case, Zangetsu). For example: "Debug Build with GCC on Linux", "Release Build with Clang", etc.
-* __```CMakeUserPresets.json```:__ This is a personal file. You should put your own version of it within the root directory of this project/repository. It is basically responsible for storing personal local preferences. For example, it is within this file that you put the path to ````vcpkg.cmake``` (where you tell CMake where to find your dependences). __It is also worth mentioning that the ```CMakeUserPresets.json``` file inherits from the ```CMakePresets.json``` file.__ 
+* __```CMakeUserPresets.json```:__ This is a personal file. You should put your own version of it within the root directory of this project/repository. It is basically responsible for storing personal local preferences. For example, it is within this file that you put the path to ```vcpkg.cmake``` (where you tell CMake where to find your dependences). __It is also worth mentioning that the ```CMakeUserPresets.json``` file inherits from the ```CMakePresets.json``` file.__ 
 
 ## References:
 ### Books
