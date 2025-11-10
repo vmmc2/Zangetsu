@@ -1,5 +1,7 @@
 #include "lexer.hpp"
 
+#include <format>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -54,7 +56,10 @@ void Lexer::IntegerConstant() {
   }
 
   if (IsAlpha(Peek(0))) {
-    // TODO: Throw error.
+    throw std::runtime_error{
+        std::format("The character after the last digit is not a word boundary "
+                    "that respects the regex '[0-9]+\\b': {}.",
+                    Peek(0))};
   }
 
   std::string token_lexeme = source_code_.substr(start_, current_ - start_);
@@ -108,6 +113,9 @@ void Lexer::LexToken() {
       Identifier();
     } else if (IsDigit(curr_char)) {
       IntegerConstant();
+    } else {
+      throw std::runtime_error{std::format(
+          "Unauthorized character present in the source code: {}.", curr_char)};
     }
     break;
   }
