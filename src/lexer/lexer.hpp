@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <map>
 #include <string>
 #include <vector>
@@ -25,10 +26,10 @@ private:
   bool Match(char expected);
   char Peek(int offset) const;
 
-  int current_{0};
-  int start_{0};
-  int line_{1};
-  int column_{1};
+  std::uint64_t current_{0};
+  std::uint64_t start_{0};
+  std::uint64_t line_{1};
+  std::uint64_t column_{1};
   std::string source_code_;
   std::vector<Token> tokens_;
   // TODO: Give a better name to the attribute below.
