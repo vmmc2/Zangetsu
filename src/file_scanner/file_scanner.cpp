@@ -10,9 +10,11 @@ std::string FileScanner::GetFileContent(std::string file_path) {
   std::filesystem::path source_code_file_path{file_path};
 
   if (source_code_file_path.extension() != ".c") {
-    throw std::runtime_error{
+    throw std::runtime_error{std::format(
         "The Zangetsu compiler is a compiler for the C programming language. "
-        "Input files must have the '.c' extension.\n"};
+        "Input files must have the '.c' extension. But the file has extension: "
+        "{}.\n",
+        source_code_file_path.extension().string())};
   }
 
   std::ifstream file{file_path,
