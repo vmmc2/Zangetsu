@@ -81,6 +81,7 @@ bool Lexer::IsDigit(char c) const { return (c >= '0' && c <= '9'); }
 
 void Lexer::LexToken() {
   // TODO: Think about how to deal with column displacement.
+  // TODO: Add support for single-line and multi-line comments.
   char curr_char = Advance();
 
   switch (curr_char) {
