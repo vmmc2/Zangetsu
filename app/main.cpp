@@ -7,6 +7,8 @@
 #include "../src/lexer/lexer.hpp"
 
 int main(int argc, const char **argv) {
+  // TODO: Separate the main program into two: One for personal use and another
+  // to run the tests from the book.
   if (argc > 1) {
     std::string file_path = std::string{argv[1]};
 
@@ -22,6 +24,7 @@ int main(int argc, const char **argv) {
       }
     } catch (std::exception &e) {
       std::cout << e.what() << std::endl;
+      return 1;
     }
   }
 
