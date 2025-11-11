@@ -32,12 +32,21 @@ std::ostream &operator<<(std::ostream &os, Token token) {
   case (TokenType::kIntegerConst):
     token_value_str = std::to_string(std::any_cast<int>(token.value()));
     break;
+  case (TokenType::kInt):
+    token_value_str = std::any_cast<std::string>(token.value());
+    break;
+  case (TokenType::kReturn):
+    token_value_str = std::any_cast<std::string>(token.value());
+    break;
+  case (TokenType::kVoid):
+    token_value_str = std::any_cast<std::string>(token.value());
+    break;
   default:
     token_value_str = "N/A";
     break;
   }
 
-  os << std::format("[{:04}:{:04}] - TokenType: {} - Lexeme: {} - Value: {}\n",
+  os << std::format("[{:04}:{:04}] - TokenType: {} - Lexeme: {} - Value: {}",
                     token.line(), token.column(), token_type_str,
                     token.lexeme(), token_value_str);
 
