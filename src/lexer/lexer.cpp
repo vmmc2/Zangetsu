@@ -105,7 +105,7 @@ void Lexer::LexToken() {
     break; // Since the C programming language does not care about whitespace
            // characters, the Lexer ignores them during the lexing process.
   case ('\n'):
-    line_ = line_ + 1;
+    line_++;
     column_ = 1;
     break;
   default:
