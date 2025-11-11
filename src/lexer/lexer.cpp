@@ -109,6 +109,11 @@ void Lexer::LexToken() {
     line_++;
     column_ = 1;
     break;
+  case ('/'):
+    if(Peek(0) == '/'){
+      SingleLineComment();
+    }
+    break;
   default:
     if (IsAlpha(curr_char)) {
       Identifier();
@@ -139,4 +144,10 @@ char Lexer::Peek(int offset) const {
     return '\0';
   }
   return source_code_.at(current_ + offset);
+}
+
+void Lexer::SingleLineComment(){
+  while(Peek(0) != '\n'){
+    Advance();
+  }
 }

@@ -25,6 +25,7 @@ private:
   void LexToken();
   bool Match(char expected);
   char Peek(int offset) const;
+  void SingleLineComment();
 
   std::uint64_t current_{0};
   std::uint64_t start_{0};
