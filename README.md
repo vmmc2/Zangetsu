@@ -13,6 +13,8 @@ A compiler for a large subset of the C programming language (specifically C17) t
 * __Moreover, the C language is a perfect example of a language that has been shaped by the systems it runs on and the people that use it. Keep in mind that some aspects of C vary between the hardware you are running it and also the operating systems. Last, but not least, some aspects of the language are left unspecified to give more freedom to the one that is implementing the compiler.__
 
 ## To-Do List
+ - [ ] Think about how to deal with column displacement.
+ - [ ] Add support for single-line and multi-line comments inside the ```Lexer``` class.
  - [ ] Think about how to implement a robust error system of Zangetsu by taking famous compilers as inspirations.
  - [ ] Think about how to perform unit tests and integration tests for Zangetsu.
 
