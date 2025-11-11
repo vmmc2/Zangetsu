@@ -110,9 +110,12 @@ void Lexer::LexToken() {
     column_ = 1;
     break;
   case ('/'):
-    if(Peek(0) == '/'){
+    if (Peek(0) == '/') {
       SingleLineComment();
+    } else if (Peek(0) == '*') {
+      MultiLineComment();
     }
+    // Else: It is a slash token.
     break;
   default:
     if (IsAlpha(curr_char)) {
@@ -139,6 +142,27 @@ bool Lexer::Match(char expected) {
   return true;
 }
 
+void Lexer::MultiLineComment() {
+  Advance();
+
+  while (!IsAtEnd()) {
+    if (Peek(0) == '*' && Peek(1) == '/') {
+      Advance();
+      Advance();
+      return;
+    }
+
+    if (Peek(0) == '\n') {
+      line_++;
+      Advance();
+    } else {
+      Advance();
+    }
+  }
+
+  throw std::runtime_error{"Unclosed multi-line comment."};
+}
+
 char Lexer::Peek(int offset) const {
   if (current_ + offset >= source_code_.length()) {
     return '\0';
@@ -146,8 +170,8 @@ char Lexer::Peek(int offset) const {
   return source_code_.at(current_ + offset);
 }
 
-void Lexer::SingleLineComment(){
-  while(Peek(0) != '\n'){
+void Lexer::SingleLineComment() {
+  while (Peek(0) != '\n') {
     Advance();
   }
 }

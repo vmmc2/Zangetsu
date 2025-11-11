@@ -23,6 +23,7 @@ private:
   bool IsAtEnd() const;
   bool IsDigit(char c) const;
   void LexToken();
+  void MultiLineComment();
   bool Match(char expected);
   char Peek(int offset) const;
   void SingleLineComment();
