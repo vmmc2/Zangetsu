@@ -6,5 +6,8 @@
 ## Versions
 ### Version ```0.1.0```
 ```
-
+<program> ::= <function>
+<function> ::= "int" IDENTIFIER "(" "void" ")" "{" <statement> "}"
+<statement> ::= "return" <exp> ";"
+<exp> ::= INTEGER
 ```
