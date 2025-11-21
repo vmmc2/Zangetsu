@@ -6,6 +6,7 @@
 * __The ASDL file is responsible for providing a formal specification of all nodes that are present inside the AST (Abstract Syntax Tree) that the parser is supposed to generate during the parsing stage of the compilation process. This file is responsible for defining the structure and the types of all AST nodes in a concise and high-level manner.__
 * According to Gemini 2.5 Pro, the CPython compiler uses ASDL to define its AST.
 
+
 ## Explanation
 * Suppose that inside the ASDL specification, I have the following line:
 ```
@@ -21,6 +22,7 @@ expr = Constant(int)
 * __The line above means the following:__
   * __There exists an abstract type called ```expr``` (which is a short for ```expresion```).__
   * __```Constant``` is A TYPE of ```expr``` (```expression```).__
+
 
 ## The functioning of ASDL
 ### Intro
@@ -52,6 +54,17 @@ function_definition = Function(identifier name, statement body)
   * However, since there's a one-to-one relationship (there's only one way to define a function), __we apply a design optimization called Class Collapse.__
   * We ignore the intermediate name (```function_definition```) and use only the constructor (```Function```) as the concrete class.
   * Instead of: ```Program``` has a pointer to ```FunctionDefinitionNode``` that points to ```FunctionNode```. We do: ```Program``` has a direct pointer to ```FunctionNode```.
+
+
+## In C, why is a function definition not considered a type of statement?
+* The answer to this question is basically __simplicity.__
+* __There exists a very strong historical and structural reason behind the decision of not making a function definition a type of statement.__
+  * Basically, if a function definition was a kind/type of statement the context-free grammar of the C programming language would drastically change. Also the implementation of a C compiler would be much more complex.
+* We can talk about the 3 major reasons as discussed below:
+  1. __Nesting Problem:__ 
+  2. __Implementation Complexity (Stack Frames):__
+  3. __Distinction between "Declarative" and "Imperative:__
+
 
 ## Versions
 ### Version ```0.1.0```
