@@ -61,10 +61,14 @@ function_definition = Function(identifier name, statement body)
 * __There exists a very strong historical and structural reason behind the decision of not making a function definition a type of statement.__
   * Basically, if a function definition was a kind/type of statement the context-free grammar of the C programming language would drastically change. Also the implementation of a C compiler would be much more complex.
 * We can talk about the 3 major reasons as discussed below:
-  1. __Nesting Problem:__ 
-  2. __Implementation Complexity (Stack Frames):__
-  3. __Distinction between "Declarative" and "Imperative:__
-
+  1. __Nesting Problem:__ If a function definition was a kind of statement, then we could have function definitions within functions definitions (potentially being nested an unspecified amount of times). According to the C Standard (ANSI C, C99, C11, C17, etc), nested function definitions are forbidden. In other words, in C, all function definitions must be on the top level of the file. By separating ```function_definition``` and ```statement``` in the CFG, we are guaranteed to not find any function definition where we were supposed to find a statement.
+  2. __Implementation Complexity (Stack Frames):__ If the C programming language said that function definitions are a kind of statement, then the compiler would need to deal with closures, or to the access of the Stack Frame from the parent function. To make this work, the child function would need a __"secret pointer" called static link__ that points to the Stack Frame of the parent function. This makes Assembly code generation more complex and the slows the executions. Implementing this kind of behavior is complex and the C programming language was designed with simplicity in mind. Thus, one more reason to disallow function definitions as a kind of statement.
+  3. __Distinction between "Declarative" and "Imperative:__ In the C programming language there is a clear distinction between __declarative__ and __imperative__. In other words, in C, there is a clear distinction between the following:
+     1. __Top Level (Translation Unit):__ This is where you define __WHAT__ exists (global variables, types, function declarations, etc). It is a declarative world.
+     2. __Function Body (Block):__ This is where you define __HOW__ things happen (sequential execution). It is an imperative world.
+  One statement is like an execution order ("Do it now!").
+  On the other hand, a function definition is not an order to be executed at that moment. It is a code definition that will be stored in memory so it can be called later on.
+  Mixing these two concepts is a bad idea as it violates the separation of concerns principle.
 
 ## Versions
 ### Version ```0.1.0```
