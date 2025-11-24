@@ -36,14 +36,12 @@ public:
   }
 
   Token identifier() { return identifier_; }
-  // If the return type was "std::unique_ptr<StmtNode>" this code wouldn't
-  // compile because we would be trying to return by value. This means that the
-  // compiler would make a copy of this smart pointer and then return it.
-  // However, the 'std::unique_ptr' pointer does not allow copies.
-  // Hence, we return it by reference. This way, I am not creating a copy of the
-  // smart pointer. Instead, I am just returning an alias to the smart pointer
-  // that already exists within this class.
-  std::unique_ptr<StmtNode> &body() { return body_; }
+
+  // The 'get' method only takes a look at the memory address stored within the
+  // smart pointer ('std::unique_ptr') and returns A COPY of such memory address
+  // (a StmtNode*). This is valid because returning a copy does not change the
+  // smart pointer itself, that is stored within the class.
+  StmtNode *body() const { return body_.get(); }
 
 private:
   Token identifier_;
@@ -61,8 +59,8 @@ public:
 
   // This accessor cannot be marked with the "const" qualifier because here I am
   // returning a non-const reference.
-  std::unique_ptr<FunctionDefinitionNode> &function_definition() {
-    return function_definition_;
+  FunctionDefinitionNode *function_definition() const {
+    return function_definition_.get();
   }
 
 private:
@@ -77,8 +75,7 @@ public:
     // TODO: Implement this method.
   }
 
-  // TODO: Why can't I mark this method with the 'const' qualifier?
-  std::unique_ptr<ExprNode> &expr() { return expr_; }
+  ExprNode *expr() const { return expr_.get(); }
 
 private:
   std::unique_ptr<ExprNode> expr_;
