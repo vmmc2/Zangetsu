@@ -31,13 +31,18 @@ public:
   FunctionDefinitionNode(Token identifier, std::unique_ptr<StmtNode> body)
       : identifier_(identifier), body_(std::move(body)) {}
 
-  void Accept(AstVisitor &ast_visitor) {
+  void Accept(AstVisitor &ast_visitor) override {
     // TODO: Implement this method.
   }
 
   Token identifier() { return identifier_; }
-  // TODO: Check why the return type "std::unique_ptr<StmtNode> &" works, but
-  // "std::unique_ptr<StmtNode>" doesn't.
+  // If the return type was "std::unique_ptr<StmtNode>" this code wouldn't
+  // compile because we would be trying to return by value. This means that the
+  // compiler would make a copy of this smart pointer and then return it.
+  // However, the 'std::unique_ptr' pointer does not allow copies.
+  // Hence, we return it by reference. This way, I am not creating a copy of the
+  // smart pointer. Instead, I am just returning an alias to the smart pointer
+  // that already exists within this class.
   std::unique_ptr<StmtNode> &body() { return body_; }
 
 private:
@@ -50,11 +55,12 @@ public:
   ProgramNode(std::unique_ptr<FunctionDefinitionNode> function_definition)
       : function_definition_(std::move(function_definition)) {}
 
-  void Accept(AstVisitor &ast_visitor) {
+  void Accept(AstVisitor &ast_visitor) override {
     // TODO: Implement this method.
   }
 
-  // TODO: Why can't I mark this method with the 'const' qualifier?
+  // This accessor cannot be marked with the "const" qualifier because here I am
+  // returning a non-const reference.
   std::unique_ptr<FunctionDefinitionNode> &function_definition() {
     return function_definition_;
   }
@@ -67,7 +73,7 @@ class ReturnStmtNode : public StmtNode {
 public:
   ReturnStmtNode(std::unique_ptr<ExprNode> expr) : expr_(std::move(expr)) {}
 
-  void Accept(AstVisitor &ast_visitor) {
+  void Accept(AstVisitor &ast_visitor) override {
     // TODO: Implement this method.
   }
 
@@ -82,7 +88,7 @@ class ConstantExprNode : public ExprNode {
 public:
   ConstantExprNode(int value) : value_(value) {}
 
-  void Accept(AstVisitor &ast_visitor) {
+  void Accept(AstVisitor &ast_visitor) override {
     // TODO: Implement this method.
   }
 
