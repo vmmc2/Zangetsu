@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -11,13 +12,13 @@
 class Parser {
 public:
   Parser(std::vector<Token> tokens);
-  AstNode *Parse();
+  std::unique_ptr<AstNode> Parse();
 
 private:
-  AstNode *Expression();
-  AstNode *Function();
-  AstNode *Program();
-  AstNode *Statement();
+  std::unique_ptr<ExprNode> Expression();
+  std::unique_ptr<FunctionDefinitionNode> Function();
+  std::unique_ptr<AstNode> Program();
+  std::unique_ptr<StmtNode> Statement();
 
   Token Advance();
   bool Check(TokenType token_type);

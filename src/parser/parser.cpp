@@ -8,6 +8,8 @@
 
 Parser::Parser(std::vector<Token> tokens) : tokens_(tokens) {}
 
+std::unique_ptr<AstNode> Parser::Parse() { return Program(); }
+
 Token Parser::Advance() {
   if (!IsAtEnd()) {
     current_++;
@@ -26,7 +28,7 @@ bool Parser::Check(TokenType token_type) {
 
 Token Parser::Consume(TokenType token_type, std::string error_message) {
   if (Check(token_type)) {
-    Advance();
+    return Advance();
   }
 
   throw std::runtime_error{error_message};
@@ -47,28 +49,48 @@ Token Parser::Peek() { return tokens_[current_]; }
 
 Token Parser::Previous() { return tokens_[current_ - 1]; }
 
-AstNode *Parser::Expression() {
-  // Return a constant token with its value wrapped.
+std::unique_ptr<ExprNode> Parser::Expression() {
+  if (Match(TokenType::kIntegerConst)) {
+    int integer_constant = std::any_cast<int>(Previous().value());
+    return std::make_unique<ConstantExprNode>(integer_constant);
+  }
+
+  throw std::runtime_error{"Expected token of type TokenType::kIntegerConst."};
 }
 
-AstNode *Parser::Function() {
-  Match(TokenType::kInt);
-  Match(TokenType::kIdentifier);
-  // Get Identifier Token.
+std::unique_ptr<FunctionDefinitionNode> Parser::Function() {
+  Consume(TokenType::kInt,
+          "Expected the 'int' keyword as return type of the 'main' function.");
+  Consume(TokenType::kIdentifier,
+          "Expected an identifier after the function return type.");
+  Token function_identifier = Previous();
 
-  Match(TokenType::kLeftParen);
-  Match(TokenType::kVoid);
-  Match(TokenType::kRightParen);
+  Consume(TokenType::kLeftParen, "Expected a '(' after the function name.");
+  Consume(TokenType::kVoid,
+          "Expected the 'void' keyword between after the '(' character.");
+  Consume(TokenType::kRightParen, "Expected a ')' after the 'void' keyword.");
 
-  Match(TokenType::kLeftBrace);
-  // Get statement node.
-  Match(TokenType::kRightBrace);
+  Consume(TokenType::kLeftBrace,
+          "Expected a '{' after the ')' in a function definition.");
+  std::unique_ptr<StmtNode> function_body = Statement();
+  Consume(TokenType::kRightBrace,
+          "Expected a '}' after the last statement of the function body.");
+
+  if (!IsAtEnd()) {
+    throw std::runtime_error{"Unexpected sequence of tokens."};
+  }
+
+  return std::make_unique<FunctionDefinitionNode>(function_identifier,
+                                                  std::move(function_body));
 }
 
-AstNode *Parser::Program() { return Function(); }
+std::unique_ptr<AstNode> Parser::Program() { return Function(); }
 
-AstNode *Parser::Statement() {
-  Match(TokenType::kReturn);
-  // Get expression node.
-  Match(TokenType::kSemicolon);
+std::unique_ptr<StmtNode> Parser::Statement() {
+  Consume(TokenType::kReturn,
+          "Expected the 'return' keyword starting a statement.");
+  std::unique_ptr<ExprNode> expr = Expression();
+  Consume(TokenType::kSemicolon, "Expected a ';' at the end of a statement.");
+
+  return std::make_unique<ReturnStmtNode>(std::move(expr));
 }
