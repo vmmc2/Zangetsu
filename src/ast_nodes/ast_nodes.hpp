@@ -1,5 +1,6 @@
 #pragma once
 
+#include <any>
 #include <memory>
 
 #include "../compiler_utils/token.hpp"
@@ -15,7 +16,7 @@ public:
 
   // To find out what an AstNode* actually is the standard solution when
   // implementing a compiler is the Visitor Pattern.
-  virtual void Accept(AstVisitor &ast_visitor) = 0;
+  virtual std::any Accept(AstVisitor &ast_visitor) = 0;
 };
 
 class ExprNode : public AstNode {
@@ -31,8 +32,9 @@ public:
   FunctionDefinitionNode(Token identifier, std::unique_ptr<StmtNode> body)
       : identifier_(identifier), body_(std::move(body)) {}
 
-  void Accept(AstVisitor &ast_visitor) override {
+  std::any Accept(AstVisitor &ast_visitor) override {
     // TODO: Implement this method.
+    return {};
   }
 
   Token identifier() { return identifier_; }
@@ -53,8 +55,9 @@ public:
   ProgramNode(std::unique_ptr<FunctionDefinitionNode> function_definition)
       : function_definition_(std::move(function_definition)) {}
 
-  void Accept(AstVisitor &ast_visitor) override {
+  std::any Accept(AstVisitor &ast_visitor) override {
     // TODO: Implement this method.
+    return {};
   }
 
   // This accessor cannot be marked with the "const" qualifier because here I am
@@ -71,8 +74,9 @@ class ReturnStmtNode : public StmtNode {
 public:
   ReturnStmtNode(std::unique_ptr<ExprNode> expr) : expr_(std::move(expr)) {}
 
-  void Accept(AstVisitor &ast_visitor) override {
+  std::any Accept(AstVisitor &ast_visitor) override {
     // TODO: Implement this method.
+    return {};
   }
 
   ExprNode *expr() const { return expr_.get(); }
@@ -85,8 +89,9 @@ class ConstantExprNode : public ExprNode {
 public:
   ConstantExprNode(int value) : value_(value) {}
 
-  void Accept(AstVisitor &ast_visitor) override {
+  std::any Accept(AstVisitor &ast_visitor) override {
     // TODO: Implement this method.
+    return {};
   }
 
   int value() { return value_; }
