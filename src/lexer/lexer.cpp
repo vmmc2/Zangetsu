@@ -34,8 +34,10 @@ char Lexer::Advance() {
 }
 
 void Lexer::Identifier() {
+  std::uint64_t column_displacement = 1;
   while (IsAlphaNumeric(Peek(0))) {
     Advance();
+    column_displacement++;
   }
 
   std::string token_lexeme = source_code_.substr(start_, current_ - start_);
@@ -48,11 +50,14 @@ void Lexer::Identifier() {
   }
 
   AddToken(token_type, token_value);
+  column_ += column_displacement;
 }
 
 void Lexer::IntegerConstant() {
+  std::uint64_t column_displacement = 1;
   while (IsDigit(Peek(0))) {
     Advance();
+    column_displacement++;
   }
 
   if (IsAlpha(Peek(0))) {
@@ -67,6 +72,7 @@ void Lexer::IntegerConstant() {
   TokenType token_type = TokenType::kIntegerConst;
 
   AddToken(token_type, token_value);
+  column_ += column_displacement;
 }
 
 bool Lexer::IsAlpha(char c) const {
@@ -80,29 +86,33 @@ bool Lexer::IsAtEnd() const { return current_ >= source_code_.length(); }
 bool Lexer::IsDigit(char c) const { return (c >= '0' && c <= '9'); }
 
 void Lexer::LexToken() {
-  // TODO: Think about how to deal with column displacement.
-  // TODO: Add support for single-line and multi-line comments.
   char curr_char = Advance();
 
   switch (curr_char) {
   case ('{'):
     AddToken(TokenType::kLeftBrace);
+    column_++;
     break;
   case ('}'):
     AddToken(TokenType::kRightBrace);
+    column_++;
     break;
   case ('('):
     AddToken(TokenType::kLeftParen);
+    column_++;
     break;
   case (')'):
     AddToken(TokenType::kRightParen);
+    column_++;
     break;
   case (';'):
     AddToken(TokenType::kSemicolon);
+    column_++;
     break;
   case (' '):
   case ('\r'):
   case ('\t'):
+    column_++;
     break; // Since the C programming language does not care about whitespace
            // characters, the Lexer ignores them during the lexing process.
   case ('\n'):
