@@ -5,7 +5,7 @@
 
 #include "../compiler_utils/token.hpp"
 
-class AstVisitor;
+class IAstVisitor;
 
 class AstNode {
 public:
@@ -14,9 +14,9 @@ public:
   // ReturnNode) is called.
   virtual ~AstNode() = default;
 
-  // To find out what an AstNode* actually is the standard solution when
-  // implementing a compiler is the Visitor Pattern.
-  virtual std::any Accept(AstVisitor &ast_visitor) = 0;
+  // The standard solution to find out what an AstNode* actually is the
+  // Visitor pattern.
+  virtual std::any Accept(IAstVisitor &ast_visitor) = 0;
 };
 
 class ExprNode : public AstNode {
@@ -32,18 +32,9 @@ public:
   FunctionDefinitionNode(Token identifier, std::unique_ptr<StmtNode> body)
       : identifier_(identifier), body_(std::move(body)) {}
 
-  std::any Accept(AstVisitor &ast_visitor) override {
-    // TODO: Implement this method.
-    return {};
-  }
-
-  Token identifier() { return identifier_; }
-
-  // The 'get' method only takes a look at the memory address stored within the
-  // smart pointer ('std::unique_ptr') and returns A COPY of such memory address
-  // (a StmtNode*). This is valid because returning a copy does not change the
-  // smart pointer itself, that is stored within the class.
-  StmtNode *body() const { return body_.get(); }
+  std::any Accept(IAstVisitor &ast_visitor) override;
+  Token identifier() const;
+  StmtNode *body() const;
 
 private:
   Token identifier_;
@@ -55,16 +46,8 @@ public:
   ProgramNode(std::unique_ptr<FunctionDefinitionNode> function_definition)
       : function_definition_(std::move(function_definition)) {}
 
-  std::any Accept(AstVisitor &ast_visitor) override {
-    // TODO: Implement this method.
-    return {};
-  }
-
-  // This accessor cannot be marked with the "const" qualifier because here I am
-  // returning a non-const reference.
-  FunctionDefinitionNode *function_definition() const {
-    return function_definition_.get();
-  }
+  std::any Accept(IAstVisitor &ast_visitor) override;
+  FunctionDefinitionNode *function_definition() const;
 
 private:
   std::unique_ptr<FunctionDefinitionNode> function_definition_;
@@ -74,12 +57,8 @@ class ReturnStmtNode : public StmtNode {
 public:
   ReturnStmtNode(std::unique_ptr<ExprNode> expr) : expr_(std::move(expr)) {}
 
-  std::any Accept(AstVisitor &ast_visitor) override {
-    // TODO: Implement this method.
-    return {};
-  }
-
-  ExprNode *expr() const { return expr_.get(); }
+  std::any Accept(IAstVisitor &ast_visitor) override;
+  ExprNode *expr() const;
 
 private:
   std::unique_ptr<ExprNode> expr_;
@@ -89,12 +68,8 @@ class ConstantExprNode : public ExprNode {
 public:
   ConstantExprNode(int value) : value_(value) {}
 
-  std::any Accept(AstVisitor &ast_visitor) override {
-    // TODO: Implement this method.
-    return {};
-  }
-
-  int value() { return value_; }
+  std::any Accept(IAstVisitor &ast_visitor) override;
+  int value();
 
 private:
   int value_;
