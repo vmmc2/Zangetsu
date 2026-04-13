@@ -3,14 +3,13 @@
 #include <any>
 
 #include "../compiler_utils/token.hpp"
-#include "ast_visitor.hpp"
+#include "i_ast_visitor.hpp"
 
 /***************************************************************************************************/
 /*                                     FunctionDefinitionNode                                      */
 /***************************************************************************************************/
 std::any FunctionDefinitionNode::Accept(IAstVisitor &ast_visitor) {
-  // TODO: Implement this method.
-  return {};
+  return ast_visitor.VisitFunctionDefinitionNode(this);
 }
 
 Token FunctionDefinitionNode::identifier() const { return identifier_; }
@@ -25,8 +24,7 @@ StmtNode *FunctionDefinitionNode::body() const { return body_.get(); }
 /*                                           ProgramNode                                           */
 /***************************************************************************************************/
 std::any ProgramNode::Accept(IAstVisitor &ast_visitor) {
-  // TODO: Implement this method.
-  return {};
+  return ast_visitor.VisitProgramNode(this);
 }
 
 // Same logic as explained in the 'FunctionDefinitionNode::body' method above.
@@ -40,8 +38,7 @@ FunctionDefinitionNode *ProgramNode::function_definition() const {
 /*                                          ReturnStmtNode                                         */
 /***************************************************************************************************/
 std::any ReturnStmtNode::Accept(IAstVisitor &ast_visitor) {
-  // TODO: Implement this method.
-  return {};
+  return ast_visitor.VisitReturnStmtNode(this);
 }
 
 ExprNode *ReturnStmtNode::expr() const { return expr_.get(); }
@@ -50,8 +47,7 @@ ExprNode *ReturnStmtNode::expr() const { return expr_.get(); }
 /*                                         ConstantExprNode                                        */
 /***************************************************************************************************/
 std::any ConstantExprNode::Accept(IAstVisitor &ast_visitor) {
-  // TODO: Implement this method.
-  return {};
+  return ast_visitor.VisitConstantExprNode(this);
 }
 
 int ConstantExprNode::value() { return value_; }
