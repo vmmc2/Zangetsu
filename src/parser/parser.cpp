@@ -3,12 +3,13 @@
 #include <stdexcept>
 #include <vector>
 
+#include "../ast_nodes/ast_nodes.hpp"
 #include "../compiler_utils/token.hpp"
 #include "../compiler_utils/token_type.hpp"
 
 Parser::Parser(std::vector<Token> tokens) : tokens_(tokens) {}
 
-std::unique_ptr<AstNode> Parser::Parse() { return Program(); }
+std::unique_ptr<ProgramNode> Parser::Parse() { return Program(); }
 
 Token Parser::Advance() {
   if (!IsAtEnd()) {
@@ -49,7 +50,7 @@ Token Parser::Peek() { return tokens_[current_]; }
 
 Token Parser::Previous() { return tokens_[current_ - 1]; }
 
-std::unique_ptr<ExprNode> Parser::Expression() {
+std::unique_ptr<ConstantExprNode> Parser::Expression() {
   if (Match(TokenType::kIntegerConst)) {
     int integer_constant = std::any_cast<int>(Previous().value());
     return std::make_unique<ConstantExprNode>(integer_constant);
@@ -84,12 +85,15 @@ std::unique_ptr<FunctionDefinitionNode> Parser::Function() {
                                                   std::move(function_body));
 }
 
-std::unique_ptr<AstNode> Parser::Program() { return Function(); }
+std::unique_ptr<ProgramNode> Parser::Program() {
+  std::unique_ptr<FunctionDefinitionNode> function_definition = Function();
+  return std::make_unique<ProgramNode>(std::move(function_definition));
+}
 
-std::unique_ptr<StmtNode> Parser::Statement() {
+std::unique_ptr<ReturnStmtNode> Parser::Statement() {
   Consume(TokenType::kReturn,
           "Expected the 'return' keyword starting a statement.");
-  std::unique_ptr<ExprNode> expr = Expression();
+  std::unique_ptr<ConstantExprNode> expr = Expression();
   Consume(TokenType::kSemicolon, "Expected a ';' at the end of a statement.");
 
   return std::make_unique<ReturnStmtNode>(std::move(expr));

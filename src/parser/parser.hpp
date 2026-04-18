@@ -12,13 +12,13 @@
 class Parser {
 public:
   Parser(std::vector<Token> tokens);
-  std::unique_ptr<AstNode> Parse();
+  std::unique_ptr<ProgramNode> Parse();
 
 private:
-  std::unique_ptr<ExprNode> Expression();
+  std::unique_ptr<ConstantExprNode> Expression();
   std::unique_ptr<FunctionDefinitionNode> Function();
-  std::unique_ptr<AstNode> Program();
-  std::unique_ptr<StmtNode> Statement();
+  std::unique_ptr<ProgramNode> Program();
+  std::unique_ptr<ReturnStmtNode> Statement();
 
   Token Advance();
   bool Check(TokenType token_type);
@@ -28,6 +28,6 @@ private:
   Token Peek();
   Token Previous();
 
-  std::size_t current_{0};
+  std::size_t current_ = 0;
   std::vector<Token> tokens_;
 };
