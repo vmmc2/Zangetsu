@@ -24,7 +24,7 @@ std::any PrettyPrinterVisitor::VisitFunctionDefinitionNode(
 
   indentation_level_++;
 
-  AppendIndented(std::format("name={},", node->identifier().lexeme()));
+  AppendIndented(std::format("name=\"{}\",", node->identifier().lexeme()));
   AppendIndented("body=", false);
 
   if (node->body()) {
