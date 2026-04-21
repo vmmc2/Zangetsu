@@ -2,6 +2,9 @@
 #include <string>
 #include <vector>
 
+#include "../src/ast_nodes/assembly_ast_nodes.hpp"
+#include "../src/ast_nodes/assembly_generator_visitor.hpp"
+#include "../src/ast_nodes/ast_nodes.hpp"
 #include "../src/ast_nodes/pretty_printer_visitor.hpp"
 #include "../src/compiler_utils/token.hpp"
 #include "../src/file_scanner/file_scanner.hpp"
@@ -15,7 +18,7 @@ int main(int argc, const char **argv) {
     // If working by youself, use 'argv[1]'.
     // If working with the tests from the 'writing-a-c-compiler-tests' repo, use
     // 'argv[2]'.
-    std::string file_path = std::string{argv[1]};
+    std::string file_path = std::string{argv[2]};
 
     FileScanner file_scanner;
     std::string file_content = file_scanner.GetFileContent(file_path);
@@ -36,6 +39,10 @@ int main(int argc, const char **argv) {
 
       const std::string &pretty_ast = pretty_printer.ast();
       std::cout << pretty_ast << std::endl;
+
+      AssemblyGeneratorVisitor assembly_generator;
+      Program assembly_program = std::any_cast<Program>(
+          assembly_generator.VisitProgramNode(ast.get()));
 
     } catch (std::exception &e) {
       std::cout << e.what() << std::endl;
