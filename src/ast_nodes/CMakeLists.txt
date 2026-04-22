@@ -1,5 +1,7 @@
 add_library(ast_nodes
   "assembly_ast_nodes.hpp"
+  "assembly_emitter.cpp"
+  "assembly_emitter.hpp"
   "assembly_generator_visitor.hpp"
   "assembly_generator_visitor.cpp"
   "ast_nodes.cpp"
