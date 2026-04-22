@@ -4,7 +4,7 @@
 #include <any>
 
 std::any AssemblyGeneratorVisitor::VisitProgramNode(ProgramNode *node) {
-  auto function_definition =
+  Function function_definition =
       std::any_cast<Function>(node->function_definition()->Accept(*this));
 
   return Program{.function_definition = function_definition};
@@ -14,14 +14,14 @@ std::any AssemblyGeneratorVisitor::VisitFunctionDefinitionNode(
     FunctionDefinitionNode *node) {
   std::string name = node->identifier().lexeme();
 
-  auto instructions =
+  std::vector<Instruction> instructions =
       std::any_cast<std::vector<Instruction>>(node->body()->Accept(*this));
 
   return Function{.name = name, .instructions = instructions};
 }
 
 std::any AssemblyGeneratorVisitor::VisitReturnStmtNode(ReturnStmtNode *node) {
-  auto src_operand = std::any_cast<Imm>(node->expr()->Accept(*this));
+  Imm src_operand = std::any_cast<Imm>(node->expr()->Accept(*this));
 
   std::vector<Instruction> instructions;
 
