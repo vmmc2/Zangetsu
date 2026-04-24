@@ -1,4 +1,7 @@
+#include <format>
+#include <fstream>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -13,12 +16,7 @@
 #include "../src/parser/parser.hpp"
 
 int main(int argc, const char **argv) {
-  // TODO: Separate the main program into two: One for personal use and another
-  // to run the tests from the book.
   if (argc > 1) {
-    // If working by youself, use 'argv[1]'.
-    // If working with the tests from the 'writing-a-c-compiler-tests' repo, use
-    // 'argv[2]'.
     std::string file_path = std::string{argv[1]};
 
     FileScanner file_scanner;
@@ -50,6 +48,22 @@ int main(int argc, const char **argv) {
 
       std::cout << assembly_code << std::endl;
 
+      std::string assembly_file_path = file_path;
+      auto dot_pos = assembly_file_path.find_last_of('.');
+      if (dot_pos != std::string::npos) {
+        assembly_file_path = assembly_file_path.substr(0, dot_pos) + ".s";
+      } else {
+        assembly_file_path += ".s";
+      }
+
+      std::ofstream assembly_file{assembly_file_path};
+      if (assembly_file.is_open()) {
+        assembly_file << assembly_code << "\n";
+        assembly_file.close();
+      } else {
+        throw std::runtime_error{std::format(
+            "Could not create the Assembly file: {}", assembly_file_path)};
+      }
     } catch (std::exception &e) {
       std::cout << e.what() << std::endl;
       return 1;
