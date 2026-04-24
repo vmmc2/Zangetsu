@@ -17,7 +17,7 @@ std::string AssemblyEmitter::Emit(const Program &program) {
 std::string AssemblyEmitter::EmitFunction(const Function &function) {
   std::stringstream ss;
 
-  ss << std::format("  .globl {}\n", function.name);
+  ss << std::format("\t.globl {}\n", function.name);
   ss << std::format("{}:\n", function.name);
 
   for (const auto &instruction : function.instructions) {
@@ -33,12 +33,12 @@ std::string AssemblyEmitter::EmitInstruction(const Instruction &instruction) {
 }
 
 std::string AssemblyEmitter::EmitSpecificInstruction(const Mov &mov) {
-  return std::format("  movl {}, {}\n", EmitOperand(mov.src),
+  return std::format("\tmovl {}, {}\n", EmitOperand(mov.src),
                      EmitOperand(mov.dst));
 }
 
 std::string AssemblyEmitter::EmitSpecificInstruction(const Ret &ret) {
-  return "  ret\n";
+  return "\tret\n";
 }
 
 std::string AssemblyEmitter::EmitOperand(const Operand &operand) {
