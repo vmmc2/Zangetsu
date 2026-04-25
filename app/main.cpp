@@ -64,6 +64,22 @@ int main(int argc, const char **argv) {
         throw std::runtime_error{std::format(
             "Could not create the Assembly file: {}", assembly_file_path)};
       }
+
+      std::string exe_path = file_path;
+      dot_pos = exe_path.find_last_of('.');
+      if (dot_pos != std::string::npos) {
+        exe_path = exe_path.substr(0, dot_pos);
+      }
+
+      std::string gcc_command =
+          std::format("gcc {} -o {}", assembly_file_path, exe_path);
+      int gcc_status = std::system(gcc_command.c_str());
+
+      if (gcc_status != 0) {
+        throw std::runtime_error{
+            std::format("Could not generate the executable: {}", exe_path)};
+      }
+
     } catch (std::exception &e) {
       std::cout << e.what() << std::endl;
       return 1;
