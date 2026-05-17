@@ -2,7 +2,7 @@
 
 #include <any>
 
-#include "../compiler_utils/token.hpp"
+#include "../token.hpp"
 #include "i_ast_visitor.hpp"
 
 /***************************************************************************************************/

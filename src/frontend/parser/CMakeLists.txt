@@ -1,4 +1,4 @@
-add_library(parser
+add_library(parser STATIC
   "parser.cpp"
   "parser.hpp"
 )
@@ -10,5 +10,5 @@ target_include_directories(parser
 
 target_link_libraries(parser
   PUBLIC
-  ast_nodes
+  ast
 )

@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "../compiler_utils/token.hpp"
-#include "../compiler_utils/token_type.hpp"
+#include "../token.hpp"
+#include "../token_type.hpp"
 
 Lexer::Lexer(std::string source_code) : source_code_(source_code) {}
 

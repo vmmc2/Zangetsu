@@ -1,4 +1,4 @@
-add_library(lexer
+add_library(lexer STATIC
   "lexer.cpp"
   "lexer.hpp"
 )
