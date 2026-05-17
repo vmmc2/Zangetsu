@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "assembly_ast_nodes.hpp"
+#include "../asm_ast/asm_ast_nodes.hpp"
 
 class AssemblyEmitter {
 public:

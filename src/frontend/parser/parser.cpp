@@ -3,9 +3,9 @@
 #include <stdexcept>
 #include <vector>
 
-#include "../ast_nodes/ast_nodes.hpp"
-#include "../compiler_utils/token.hpp"
-#include "../compiler_utils/token_type.hpp"
+#include "../ast/ast_nodes.hpp"
+#include "../token.hpp"
+#include "../token_type.hpp"
 
 Parser::Parser(std::vector<Token> tokens) : tokens_(tokens) {}
 

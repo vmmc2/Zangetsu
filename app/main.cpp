@@ -5,15 +5,15 @@
 #include <string>
 #include <vector>
 
-#include "../src/ast_nodes/assembly_ast_nodes.hpp"
-#include "../src/ast_nodes/assembly_emitter.hpp"
-#include "../src/ast_nodes/assembly_generator_visitor.hpp"
-#include "../src/ast_nodes/ast_nodes.hpp"
-#include "../src/ast_nodes/pretty_printer_visitor.hpp"
-#include "../src/compiler_utils/token.hpp"
-#include "../src/file_scanner/file_scanner.hpp"
-#include "../src/lexer/lexer.hpp"
-#include "../src/parser/parser.hpp"
+#include "../src/backend/asm_ast/asm_ast_nodes.hpp"
+#include "../src/backend/asm_codegen/asm_codegen_visitor.hpp"
+#include "../src/backend/asm_emitter/asm_emitter.hpp"
+#include "../src/frontend/ast/ast_nodes.hpp"
+#include "../src/frontend/ast/pretty_printer_visitor.hpp"
+#include "../src/frontend/lexer/lexer.hpp"
+#include "../src/frontend/parser/parser.hpp"
+#include "../src/frontend/token.hpp"
+#include "../src/utils/file_scanner/file_scanner.hpp"
 
 int main(int argc, const char **argv) {
   if (argc > 1) {

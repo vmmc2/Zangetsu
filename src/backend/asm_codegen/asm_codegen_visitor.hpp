@@ -1,6 +1,6 @@
 #pragma once
 
-#include "i_ast_visitor.hpp"
+#include "../../frontend/ast/i_ast_visitor.hpp"
 
 class AssemblyGeneratorVisitor : public IAstVisitor {
 public:

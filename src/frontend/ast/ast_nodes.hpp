@@ -3,7 +3,7 @@
 #include <any>
 #include <memory>
 
-#include "../compiler_utils/token.hpp"
+#include "../token.hpp"
 
 class IAstVisitor;
 

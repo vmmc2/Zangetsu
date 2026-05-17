@@ -1,11 +1,11 @@
-#include "assembly_emitter.hpp"
+#include "asm_emitter.hpp"
 
 #include <format>
 #include <sstream>
 #include <string>
 #include <variant>
 
-#include "assembly_ast_nodes.hpp"
+#include "../asm_ast/asm_ast_nodes.hpp"
 
 std::string AssemblyEmitter::Emit(const Program &program) {
   std::stringstream ss;

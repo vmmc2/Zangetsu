@@ -1,4 +1,4 @@
-add_library(file_scanner
+add_library(file_scanner STATIC
   "file_scanner.cpp"
   "file_scanner.hpp"
 )
