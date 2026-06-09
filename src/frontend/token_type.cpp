@@ -16,6 +16,12 @@ std::string TokenTypeToString(TokenType token_type) {
     return "TokenType::kRightParen";
   case TokenType::kSemicolon:
     return "TokenType::kSemicolon";
+  case TokenType::kMinus:
+    return "TokenType::kMinus";
+  case TokenType::kTilde:
+    return "TokenType::kTilde";
+  case TokenType::kDecrement:
+    return "TokenType::kDecrement";
   case TokenType::kIdentifier:
     return "TokenType::kIdentifier";
   case TokenType::kIntegerConst:

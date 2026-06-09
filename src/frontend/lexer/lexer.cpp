@@ -109,6 +109,20 @@ void Lexer::LexToken() {
     AddToken(TokenType::kSemicolon);
     column_++;
     break;
+  case ('-'):
+    if(Peek(0) == '-'){
+      Advance();
+      AddToken(TokenType::kDecrement);
+      column_ += 2;
+    }else{
+      AddToken(TokenType::kMinus);
+      column_++;
+    }
+    break;
+  case ('~'):
+    AddToken(TokenType::kTilde);
+    column_++;
+    break;
   case (' '):
   case ('\r'):
   case ('\t'):

@@ -9,8 +9,11 @@ enum class TokenType {
   kLeftParen,
   kRightParen,
   kSemicolon,
+  kMinus,
+  kTilde,
 
   // Multi-Character Tokens
+  kDecrement,
   kIdentifier,
   kIntegerConst,
 
