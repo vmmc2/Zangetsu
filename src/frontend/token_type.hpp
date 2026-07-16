@@ -10,7 +10,7 @@ enum class TokenType {
   kRightParen,
   kSemicolon,
   kMinus,
-  kTilde,
+  kTilde, // "~" -> Bitwise Complement
 
   // Multi-Character Tokens
   kDecrement,

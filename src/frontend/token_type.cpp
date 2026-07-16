@@ -18,6 +18,7 @@ std::string TokenTypeToString(TokenType token_type) {
     return "TokenType::kSemicolon";
   case TokenType::kMinus:
     return "TokenType::kMinus";
+  // Case responsible for dealing with the bitwise complement token "~".
   case TokenType::kTilde:
     return "TokenType::kTilde";
   case TokenType::kDecrement:
