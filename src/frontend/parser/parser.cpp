@@ -50,12 +50,26 @@ Token Parser::Peek() { return tokens_[current_]; }
 
 Token Parser::Previous() { return tokens_[current_ - 1]; }
 
-std::unique_ptr<ConstantExprNode> Parser::Expression() {
+std::unique_ptr<ExprNode> Parser::Expression() {
+  // <expr> ::= <int>
   if (Match(TokenType::kIntegerConst)) {
     int integer_constant = std::any_cast<int>(Previous().value());
     return std::make_unique<ConstantExprNode>(integer_constant);
   }
+  // <expr> ::= ('-' | '~') <expr>
+  else if (Match(TokenType::kMinus) || Match(TokenType::kTilde)) {
+    Token unary_op = Previous();
+    std::unique_ptr<ExprNode> expr = Expression();
+    return std::make_unique<UnaryExprNode>(unary_op, std::move(expr));
+  }
+  // <expr> ::= '(' <expr> ')'
+  else if (Match(TokenType::kLeftParen)) {
+    std::unique_ptr<ExprNode> expr = Expression();
+    Consume(TokenType::kRightParen, "Expected a matching ')'.");
+    return expr;
+  }
 
+  // TODO: Change this error message.
   throw std::runtime_error{"Expected token of type TokenType::kIntegerConst."};
 }
 
@@ -93,7 +107,7 @@ std::unique_ptr<ProgramNode> Parser::Program() {
 std::unique_ptr<ReturnStmtNode> Parser::Statement() {
   Consume(TokenType::kReturn,
           "Expected the 'return' keyword starting a statement.");
-  std::unique_ptr<ConstantExprNode> expr = Expression();
+  std::unique_ptr<ExprNode> expr = Expression();
   Consume(TokenType::kSemicolon, "Expected a ';' at the end of a statement.");
 
   return std::make_unique<ReturnStmtNode>(std::move(expr));

@@ -15,7 +15,7 @@ public:
   std::unique_ptr<ProgramNode> Parse();
 
 private:
-  std::unique_ptr<ConstantExprNode> Expression();
+  std::unique_ptr<ExprNode> Expression();
   std::unique_ptr<FunctionDefinitionNode> Function();
   std::unique_ptr<ProgramNode> Program();
   std::unique_ptr<ReturnStmtNode> Statement();
