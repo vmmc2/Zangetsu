@@ -74,3 +74,17 @@ public:
 private:
   int value_;
 };
+
+class UnaryExprNode : public ExprNode {
+public:
+  UnaryExprNode(Token unary_op, std::unique_ptr<ExprNode> expr)
+      : unary_op_(unary_op), expr_(std::move(expr)) {}
+
+  std::any Accept(IAstVisitor &ast_visitor) override;
+  Token unary_op() const;
+  ExprNode *expr() const;
+
+private:
+  Token unary_op_;
+  std::unique_ptr<ExprNode> expr_;
+};
