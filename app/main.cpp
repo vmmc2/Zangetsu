@@ -1,3 +1,4 @@
+#include <any>
 #include <format>
 #include <fstream>
 #include <iostream>
@@ -13,11 +14,60 @@
 #include "../src/frontend/lexer/lexer.hpp"
 #include "../src/frontend/parser/parser.hpp"
 #include "../src/frontend/token.hpp"
+#include "../src/utils/diagnostics_reporter/diagnostics_reporter.hpp"
 #include "../src/utils/file_scanner/file_scanner.hpp"
 
+/*
+The testing script per compilation stage written by Nora Sandler tests the
+compiler through the following command:
+./path/to/your/compiler --lex /path/to/file.c
+
+In this scenario, the variable 'argc' is 3 and the variable 'argv' holds the
+following values: argv[0] = "./path/to/your/compiler" argv[1] = "--lex" argv[2]
+= "/path/to/file.c"
+
+However, the testing script per chapter tests the compiler through the following
+command:
+./path/to/your/compiler /path/to/file.c
+
+In this scenario, the variable 'argc' is 2 and the variable 'argv' holds the
+following values: argv[0] = "./path/to/your/compiler" argv[1] =
+"/path/to/file.c"
+*/
 int main(int argc, const char **argv) {
-  if (argc > 1) {
-    std::string file_path = std::string{argv[1]};
+  if (argc < 2) {
+    std::cerr << std::format("Correct Use: {} [flags] <file.c>", argv[0])
+              << std::endl;
+    return 1;
+  } else {
+    // std::string file_path = std::string{argv[2]};
+    std::string file_path;
+    bool only_lex = false;
+    bool only_parse = false;
+    bool only_codegen = false;
+    bool emit_assembly = false;
+
+    for (int i = 1; i < argc; i++) {
+      std::string arg = argv[i];
+
+      if (arg == "--lex") {
+        only_lex = true;
+      } else if (arg == "--parse") {
+        only_parse = true;
+      } else if (arg == "--codegen") {
+        only_codegen = true;
+      } else if (arg == "-S") {
+        emit_assembly = true;
+      } else {
+        // If it isn't a flag, assume it is the source file.
+        file_path = arg;
+      }
+    }
+
+    if (file_path.empty()) {
+      std::cerr << "[Error]: No source file was specified." << std::endl;
+      return 1;
+    }
 
     FileScanner file_scanner;
     std::string file_content = file_scanner.GetFileContent(file_path);
@@ -29,6 +79,9 @@ int main(int argc, const char **argv) {
       for (auto token : tokens) {
         std::cout << token << std::endl;
       }
+      if (only_lex) {
+        return 0;
+      }
 
       Parser parser{tokens};
       std::unique_ptr<ProgramNode> ast = parser.Parse();
@@ -38,10 +91,16 @@ int main(int argc, const char **argv) {
 
       const std::string &pretty_ast = pretty_printer.ast();
       std::cout << pretty_ast << std::endl;
+      if (only_parse) {
+        return 0;
+      }
 
-      AssemblyGeneratorVisitor assembly_generator;
+      AssemblyCodeGenVisitor assembly_code_generator;
       Program assembly_program = std::any_cast<Program>(
-          assembly_generator.VisitProgramNode(ast.get()));
+          assembly_code_generator.VisitProgramNode(ast.get()));
+      if (only_codegen) {
+        return 0;
+      }
 
       AssemblyEmitter assembly_emitter;
       std::string assembly_code = assembly_emitter.Emit(assembly_program);
