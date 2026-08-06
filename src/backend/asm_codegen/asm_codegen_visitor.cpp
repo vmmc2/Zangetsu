@@ -1,16 +1,17 @@
 #include "asm_codegen_visitor.hpp"
-#include "../asm_ast/asm_ast_nodes.hpp"
 
 #include <any>
 
-std::any AssemblyGeneratorVisitor::VisitProgramNode(ProgramNode *node) {
+#include "../asm_ast/asm_ast_nodes.hpp"
+
+std::any AssemblyCodeGenVisitor::VisitProgramNode(ProgramNode *node) {
   Function function_definition =
       std::any_cast<Function>(node->function_definition()->Accept(*this));
 
   return Program{.function_definition = function_definition};
 }
 
-std::any AssemblyGeneratorVisitor::VisitFunctionDefinitionNode(
+std::any AssemblyCodeGenVisitor::VisitFunctionDefinitionNode(
     FunctionDefinitionNode *node) {
   std::string name = node->identifier().lexeme();
 
@@ -20,7 +21,7 @@ std::any AssemblyGeneratorVisitor::VisitFunctionDefinitionNode(
   return Function{.name = name, .instructions = instructions};
 }
 
-std::any AssemblyGeneratorVisitor::VisitReturnStmtNode(ReturnStmtNode *node) {
+std::any AssemblyCodeGenVisitor::VisitReturnStmtNode(ReturnStmtNode *node) {
   Imm src_operand = std::any_cast<Imm>(node->expr()->Accept(*this));
 
   std::vector<Instruction> instructions;
@@ -31,7 +32,6 @@ std::any AssemblyGeneratorVisitor::VisitReturnStmtNode(ReturnStmtNode *node) {
   return instructions;
 }
 
-std::any
-AssemblyGeneratorVisitor::VisitConstantExprNode(ConstantExprNode *node) {
+std::any AssemblyCodeGenVisitor::VisitConstantExprNode(ConstantExprNode *node) {
   return Imm{.value = node->value()};
 }
