@@ -1,4 +1,5 @@
 #include "pretty_printer_visitor.hpp"
+#include "ast_nodes.hpp"
 
 #include <any>
 #include <format>
@@ -53,6 +54,32 @@ std::any PrettyPrinterVisitor::VisitReturnStmtNode(ReturnStmtNode *node) {
 
 std::any PrettyPrinterVisitor::VisitConstantExprNode(ConstantExprNode *node) {
   AppendIndented(std::format("Constant({})", node->value()));
+
+  return {};
+}
+
+std::any PrettyPrinterVisitor::VisitUnaryExprNode(UnaryExprNode *node) {
+  AppendIndented("Unary(", false);
+
+  std::string unary_op;
+  if (node->unary_op().token_type() == TokenType::kMinus) {
+    unary_op = "Negation";
+  } else if (node->unary_op().token_type() == TokenType::kTilde) {
+    unary_op = "Complement";
+  } else {
+    throw std::runtime_error{std::format("Invalid unary operator used: {}",
+                                         node->unary_op().lexeme())};
+  }
+
+  AppendUnindented(unary_op + ",", true);
+
+  indentation_level_++;
+  if (node->expr()) {
+    node->expr()->Accept(*this);
+  }
+  indentation_level_--;
+
+  AppendIndented(")", true);
 
   return {};
 }

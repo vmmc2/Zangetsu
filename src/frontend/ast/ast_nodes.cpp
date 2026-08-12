@@ -56,8 +56,7 @@ int ConstantExprNode::value() { return value_; }
 /*                                           UnaryExprNode                                         */
 /***************************************************************************************************/
 std::any UnaryExprNode::Accept(IAstVisitor &ast_visitor) {
-  // return ast_visitor.VisitUnaryExprNode(this);
-  return {};
+  return ast_visitor.VisitUnaryExprNode(this);
 }
 
 Token UnaryExprNode::unary_op() const { return unary_op_; }

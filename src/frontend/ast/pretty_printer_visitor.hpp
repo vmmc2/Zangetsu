@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ast_nodes.hpp"
 #include "i_ast_visitor.hpp"
 
 #include <any>
@@ -11,6 +12,7 @@ public:
   std::any VisitProgramNode(ProgramNode *node) override;
   std::any VisitReturnStmtNode(ReturnStmtNode *node) override;
   std::any VisitConstantExprNode(ConstantExprNode *node) override;
+  std::any VisitUnaryExprNode(UnaryExprNode *node) override;
 
   const std::string &ast() const;
 

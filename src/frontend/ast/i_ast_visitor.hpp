@@ -13,4 +13,5 @@ public:
   virtual std::any VisitProgramNode(ProgramNode *node) = 0;
   virtual std::any VisitReturnStmtNode(ReturnStmtNode *node) = 0;
   virtual std::any VisitConstantExprNode(ConstantExprNode *node) = 0;
+  virtual std::any VisitUnaryExprNode(UnaryExprNode *node) = 0;
 };
